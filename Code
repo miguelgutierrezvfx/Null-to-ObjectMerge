@@ -1,0 +1,51 @@
+sel = hou.selectedNodes()
+
+import random
+
+color_tuple = (
+
+    random.uniform(0,1),
+    random.uniform(0,1),
+    random.uniform(0,1)
+    )
+
+COLOR = hou.Color(color_tuple)
+ 
+try: 
+
+    for node in sel:
+
+        color_tuple = (
+    
+        random.uniform(0,1),
+        random.uniform(0,1),
+        random.uniform(0,1)
+        )
+    
+        COLOR = hou.Color(color_tuple)
+        
+        full_path = node.path()
+        name = node.name()
+        objmerge_name = name.rpartition("_")[2]
+        geo_path = full_path.rpartition("/")[0]    
+        null_pos = node.position()
+        objmerge_pos = (null_pos[0], null_pos[1]-4)
+        
+        path = hou.node(geo_path)
+       
+        node.setColor(COLOR)
+        
+        objmerge = path.createNode("object_merge", objmerge_name)
+        objmerge.setColor(COLOR)
+        objmerge.parm("xformtype").set(1)
+        objmerge.parm("objpath1").set(full_path)
+        
+        objmerge.setPosition(objmerge_pos)
+                
+      
+    objmerge.setDisplayFlag(True)
+    objmerge.setRenderFlag(True)
+        
+except: 
+
+    print("No nodes selected")
