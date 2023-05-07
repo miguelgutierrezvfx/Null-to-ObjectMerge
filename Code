@@ -26,7 +26,15 @@ try:
         
         full_path = node.path()
         name = node.name()
-        objmerge_name = name.rpartition("_")[2]
+        
+        if name.startswith("OUT_"):
+        
+            objmerge_name = name.rpartition("OUT_")[2]
+            
+        else:
+        
+            objmerge_name = name
+            
         geo_path = full_path.rpartition("/")[0]    
         null_pos = node.position()
         objmerge_pos = (null_pos[0], null_pos[1]-4)
